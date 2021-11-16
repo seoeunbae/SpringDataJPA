@@ -12,6 +12,7 @@ import javax.persistence.*;
         name = "Member.FindByUsername",
         query = "select m from Member m where m.username = :username"
 )
+@NamedEntityGraph(name = "Member.all", attributeNodes = @NamedAttributeNode("team"))
 public class Member {
     @Id
     @GeneratedValue
@@ -25,7 +26,7 @@ public class Member {
     private Team team;
 
     //jpa는 기본생성자필요함, 프록시,등에 필요한 기능을위해 private까지 닫으면 안됨
-    public Member(String username) {
+    public Member(String username, int i) {
         this.username = username;
     }
 
