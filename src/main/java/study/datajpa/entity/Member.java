@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id","username","age"})
 @NamedQuery(
@@ -13,7 +14,7 @@ import javax.persistence.*;
         query = "select m from Member m where m.username = :username"
 )
 @NamedEntityGraph(name = "Member.all", attributeNodes = @NamedAttributeNode("team"))
-public class Member {
+public class Member extends BaseEntity{
     @Id
     @GeneratedValue
     private Long id;
@@ -37,6 +38,10 @@ public class Member {
             changeTeam(team);
         }
 //null이면 무시
+    }
+
+    public Member(String username) {
+        this.username = username;
     }
 
     public void changeTeam(Team team){
