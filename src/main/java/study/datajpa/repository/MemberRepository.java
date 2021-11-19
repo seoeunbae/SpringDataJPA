@@ -1,5 +1,6 @@
 package study.datajpa.repository;
 
+import org.aspectj.weaver.IClassFileProvider;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -22,8 +23,10 @@ public interface MemberRepository extends JpaRepository<Member,Long>, MemberRepo
     List<Member> findByUsername(String username);
     @Override
     @EntityGraph(attributePaths = {"team"})//team까지 조회하고 싶을때! (내부적으로는 fetchjoin이 사용된다.)
-    List<Member> findAll();
+    Page<Member> findAll(Pageable pageable);
 
     @EntityGraph(attributePaths = {"team"})
     List<Member> findEntityGraphByUsername(@Param("username") String username);
+
+    <T> List<T> findProjectionsByUsername(@Param("username") String username, Class<T> type);
 }
